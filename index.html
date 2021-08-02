@@ -18,10 +18,12 @@
     <!-- Font-Awesome -->
     <script src="https://kit.fontawesome.com/c8b4666b1b.js" crossorigin="anonymous"></script>
 
+    <script src="models/shopping-basket.class.js"></script>
+    <script src="models/product.class.js"></script>
     <script src="script.js"></script>
 </head>
 
-<body>
+<body onload="init()">
     <div class="background">
     </div>
     <div class="header">
@@ -29,9 +31,9 @@
         <h1>Burrito Company</h1>
         <i class="fas fa-pepper-hot"></i>
     </div>
-    <div class="dish-container">
-        <div class="dish-content">
-            <div class="dish-box">
+    <div class="menu-container">
+        <div id="menu" class="menu">
+           <!--  <div class="dish-box">
                 <img src="img/burrito.jpg" alt="burrito">
                 <div class="dish-text">
                     <div class="plus"><span>+</span></div>
@@ -48,7 +50,7 @@
                     <div class="dish-desc">Beschreibung blablabla</div>
                     <div class="dish-price">3,50 Euro</div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="sB-container">

@@ -1,6 +1,7 @@
 :root {
     --bg-color-primary: rgb(39, 36, 29);
     --bg-color-secondary: rgb(77, 73, 73);
+    --bg-transparent: rgba(0, 0, 0, 0.5);
     --font-family: "Gowun Dodum", sans-serif;
     --header-height: 150px;
     --sB-width: 450px;
@@ -38,7 +39,7 @@ body {
 .header {
     width: calc(100% - var(--sB-width));
     height: var(--header-height);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: var(--bg-transparent);
     box-shadow: var(--box-shadow-main);
     display: flex;
     justify-content: center;
@@ -57,7 +58,7 @@ body {
     color: var(--color-tertiary);
 }
 
-.dish-container {
+.menu-container {
     position: absolute;
     left: 0;
     top: var(--header-height);
@@ -67,10 +68,10 @@ body {
     height: calc(100vh - var(--header-height));
 }
 
-.dish-content {
+.menu {
     width: calc(100% - 2 * var(--offset-main));
     height: calc(100% - 3 * var(--offset-main));
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--bg-transparent);
     margin-left: var(--offset-main);
     margin-top: var(--offset-main);
     margin-right: calc(var(--offset-main) + var(--sB-width));
@@ -81,6 +82,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
 }
 
 .dish-box {
