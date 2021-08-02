@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Snowburst+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Font-Awesome -->
+    <script src="https://kit.fontawesome.com/c8b4666b1b.js" crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="background">
+    </div>
+    <div class="header">
+        <i class="fas fa-pepper-hot"></i>
+        <h1>Burrito Company</h1>
+        <i class="fas fa-pepper-hot"></i>
+    </div>
+    <div class="dish-container">
+        <div class="dish-content">
+            <div class="dish-box">
+                <img src="img/burrito.jpg" alt="burrito">
+                <div class="dish-text">
+                    <div class="plus"><span>+</span></div>
+                    <div class="dish-name">Name</div>
+                    <div class="dish-desc">Beschreibung blablabla</div>
+                    <div class="dish-price">3,50 Euro</div>
+                </div>
+            </div>
+            <div class="dish-box">
+                <img src="img/burrito.jpg" alt="burrito">
+                <div class="dish-text">
+                    <div class="plus"><span>+</span></div>
+                    <div class="dish-name">Name</div>
+                    <div class="dish-desc">Beschreibung blablabla</div>
+                    <div class="dish-price">3,50 Euro</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sB-container">
+        <div class="sB-content">
+            <h2>Warenkorb</h2>
+            <div class="sB-info">
+                Füge Gerichte zum Warenkorb hinzu, indem du auf das Plus (+) beim jeweiligen Gericht klickst.
+            </div>
+            <table class="sB-table-order">
+                <tbody>
+                    <tr>
+                        <td>1x</td>
+                        <td>Burrito</td>
+                        <td>
+                            <div class="sB-quantity-icons sB-minus"><span>-</span></div>
+                        </td>
+                        <td>
+                            <div class="sB-quantity-icons sB-plus"><span>+</span></div>
+                        </td>
+                        <td>3,00 €</td>
+                        <td><i class="trash-icon far fa-trash-alt"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="sB-table-expense">
+                <tbody>
+                    <tr>
+                        <td>Zwischensumme</td>
+                        <td>30,00&nbsp;€</td>
+                    </tr>
+                    <tr>
+                        <td>Lieferkosten</td>
+                        <td>2,00&nbsp;€</td>
+                    </tr>
+                    <tr>
+                        <td>Gesamt</td>
+                        <td>32,00&nbsp;€</td>
+                    </tr>
+                    <tr>
+                        <td>Fehlender Betrag zum Mindesbestellwert</td>
+                        <td>5,00&nbsp;€</td>
+                    </tr>
+                    <tr>
+                        <td>Fehlender Betrag zu kostenloser Lieferung</td>
+                        <td>8,00&nbsp;€</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="sB-info">
+                Ab einem Mindestbestellwert von 10,00 € kannst du bestellen.
+            </div>
+            <button class="order-btn">Bestellen</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
