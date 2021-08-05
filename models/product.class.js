@@ -1,9 +1,10 @@
 class Product {
+
     name;
     description;
     price;
     imgPath;
-    quantity;
+    quantity = 0;
 
     constructor(name, description, price, imgPath, quantity) {
         this.name = name;
