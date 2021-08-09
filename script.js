@@ -1,5 +1,6 @@
 let products = [];
 let sB;
+let sBEmpty = true;
 
 function init() {
     createShoppingBasket();
@@ -14,8 +15,8 @@ function createShoppingBasket() {
 function createProducts() {
     products = [
         new Product('Burrito', 'Safiger Burrito mit zarter Hähnchenbrust und mediterranem Gemüse', 6.00, 'burrito.jpg', 1),
-        new Product('Taco', 'Knuspriger Taco mit verschiedenem Gemüse der Saison', 6.90, 'taco.jpg', 1),
-        new Product('Quesadilla', 'Gebackene Quesadilla gefüllt mit mediterrandem Gemüse und würzigem Käse', 6.90, 'quesadilla.jpg', 1),
+        new Product('Taco', 'Knuspriger Taco mit verschiedenem Gemüse der Saison', 3.90, 'taco.jpg', 1),
+        new Product('Quesadilla', 'Gebackene Quesadilla gefüllt mit mediterrandem Gemüse und würzigem Käse', 7.00, 'quesadilla.jpg', 1),
         new Product('Tortilla', 'Schmackhafte Tortilla aus Kartoffeln mit Knoblauchöl', 4.70, 'tortilla.jpg', 1),
         new Product('Chili', 'Feurig-scharfes Chili mit Hackfleisch, Bohnen und frischem Koriander', 5.50, 'chili.jpg', 1)
     ]

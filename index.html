@@ -33,7 +33,7 @@
     </div>
     <div class="menu-container">
         <div id="menu" class="menu">
-           <!--  <div class="dish-box">
+            <!--  <div class="dish-box">
                 <img src="img/burrito.jpg" alt="burrito">
                 <div class="dish-text">
                     <div class="plus"><span>+</span></div>
@@ -56,7 +56,7 @@
     <div class="sB-container">
         <div class="sB-content">
             <h2>Warenkorb</h2>
-            <div class="sB-info">
+            <div id="sB-info-add-dishes">
                 Füge Gerichte zum Warenkorb hinzu, indem du auf das Plus (+) beim jeweiligen Gericht klickst.
             </div>
             <table id="sB-table-order" class="sB-table-order">
@@ -79,30 +79,30 @@
                 <tbody>
                     <tr>
                         <td>Zwischensumme</td>
-                        <td>30,00&nbsp;€</td>
+                        <td id="subtotal">0,00&nbsp;€</td>
                     </tr>
-                    <tr>
+                    <tr id="deliveryExpensesText" hidden>
                         <td>Lieferkosten</td>
-                        <td>2,00&nbsp;€</td>
+                        <td id="deliveryExpensesValue">2,00&nbsp;€</td>
                     </tr>
-                    <tr>
-                        <td>Gesamt</td>
-                        <td>32,00&nbsp;€</td>
-                    </tr>
-                    <tr>
+                    <tr id="diffToMovText">
                         <td>Fehlender Betrag zum Mindesbestellwert</td>
-                        <td>5,00&nbsp;€</td>
+                        <td id="diffToMovValue">10,00&nbsp;€</td>
                     </tr>
-                    <tr>
+                    <tr id="diffToFreeDeliveryText">
                         <td>Fehlender Betrag zu kostenloser Lieferung</td>
-                        <td>8,00&nbsp;€</td>
+                        <td id="diffToFreeDeliveryValue">20,00&nbsp;€</td>
+                    </tr>
+                    <tr id="totalText">
+                        <td>GESAMT</td>
+                        <td id="total">0,00&nbsp;€</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="sB-info">
+            <div id="sBInfoDiffToMov" class="sB-info">
                 Ab einem Mindestbestellwert von 10,00 € kannst du bestellen.
             </div>
-            <button class="order-btn">Bestellen</button>
+            <button id="orderBtn" class="order-btn order-btn-disabled">Bestellen</button>
         </div>
     </div>
 

@@ -175,6 +175,10 @@ body {
     font-size: 32px !important;
 }
 
+#sB-info-add-dishes {
+    padding-top: var(--offset-secondary);
+}
+
 .sB-info {
     padding-top: var(--offset-secondary);
     padding-bottom: var(--offset-secondary);
@@ -247,6 +251,14 @@ body {
     text-align: right;
 }
 
+#totalText {
+    font-weight: bold;
+}
+
+#diffToMovText {
+    color: var(--color-secondary);
+}
+
 .order-btn {
     width: 240px;
     height: 64px;
@@ -264,4 +276,12 @@ body {
 
 .order-btn:hover {
     background-color: rgb(4, 146, 115);
+}
+
+.order-btn-disabled {
+    background-color: grey !important;
+}
+
+.order-btn-disabled:hover {
+    cursor: no-drop;
 }
