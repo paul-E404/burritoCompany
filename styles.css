@@ -22,6 +22,14 @@ body {
     font-family: var(--font-family);
 }
 
+td {
+    vertical-align: bottom;
+}
+
+.grey-text {
+    color: lightgrey !important;
+}
+
 .background {
     width: 100%;
     height: 100vh;
@@ -87,7 +95,6 @@ body {
 
 .dish-box {
     width: calc(100% - 2 * var(--offset-main));
-    min-height: var(--dish-box-height);
     margin-bottom: var(--offset-main);
     display: flex;
 }
@@ -104,7 +111,6 @@ body {
     position: relative;
     background-color: var(--bg-color-primary);
     width: 100%;
-    height: inherit;
     margin-left: 30px;
     border: 2px solid var(--color-primary);
     border-radius: var(--border-radius-main);
@@ -201,6 +207,10 @@ body {
     justify-content: flex-end;
 }
 
+.sB-table-order tbody tr td:nth-child(5) {
+    text-align: right;
+}
+
 .sB-quantity-icons {
     width: 20px;
     height: 20px;
@@ -284,4 +294,24 @@ body {
 
 .order-btn-disabled:hover {
     cursor: no-drop;
+}
+
+/* Responsive Design  */
+
+@media (max-width: 1200px) {
+    :root {
+        --sB-width: 400px;
+    }
+}
+
+@media (max-width: 1100px) {
+    :root {
+        --sB-width: 350px;
+    }
+}
+
+@media (max-width: 1000px) {
+    :root {
+        --sB-width: 300px;
+    }
 }

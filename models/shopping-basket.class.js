@@ -1,11 +1,17 @@
 class ShoppingBasket {
 
     products = [];
-    subtotal = 0;
+    subtotal = 0.00;
     deliveryExpenses = 2.00;
-    total = 0;
+    total = 0.00;
     minimumOrderValue = 10.00;
     freeDeliveryValue = 20.00;
+    discountAbsoluteCode = '3ab25e3f2525db1ba29dc28354d12931365b0d77d43fb954308566e3e96a47e7'; //burrito-5-euro
+    discountAbsolute = 5.00;
+    discountPercentagedCode = '211070fe9904206a54395e60d3d45dfd5b8c954e3ff9685425445163d3fa9e90'; //burrito-10-prozent
+    discountPercentaged = 0.1;
+    discountAbsoluteCodeEntered = false;
+    discountPercentagedCodeEntered = false;
 
     addToShoppingBasket(i) {
         let product = products[i];
@@ -37,12 +43,13 @@ class ShoppingBasket {
         for (let i = 0; i < this.products.length; i++) {
             sBTableOrder.innerHTML += this.generateHTMLForOrder(i);
         }
-        this.subtotal = 0;
-        this.total = 0;
+        this.subtotal = 0.00;
+        this.total = 0.00;
         this.calculateSubtotal();
-        this.calculateTotal();
         this.checkDifferenceToMov();
         this.checkForFreeDelivery();
+        this.toggleDiscountInput();
+        this.calculateTotal();
     }
 
     toggleSBInfo() {
@@ -94,17 +101,34 @@ class ShoppingBasket {
             this.total = 0;
         }
         this.updateSB();
-        //console.log("Die aktuellen Produkte sind: ", this.products);
     }
 
     calculateSubtotal() {
-        let subtotal = document.getElementById('subtotal');
+        var subtotal = document.getElementById('subtotal');
         for (let i = 0; i < this.products.length; i++) {
             const product = this.products[i];
             this.subtotal += product['quantity'] * product['price'];
         }
-        //console.log("Zwischensumme: ", this.subtotal, "mit dem Typ", typeof(this.subtotal));
         subtotal.innerHTML = this.subtotal.toFixed(2) + '&nbsp;€';
+    }
+
+    toggleDiscountInput() {
+        let inputDiscountCode = document.getElementById('inputDiscountCode');
+        let discountText = document.getElementById('discountText');
+        if (this.subtotal >= 5.00) {
+            discountText.classList.remove('grey-text');
+            inputDiscountCode.removeAttribute('disabled');
+        }
+        else {
+            document.getElementById('discountValue').innerHTML = '0.00&nbsp;€';
+            inputDiscountCode.value = '';
+            inputDiscountCode.setAttribute('disabled', true);
+            discountText.classList.add('grey-text');
+            this.total = 0.00;
+            document.getElementById('total').innerHTML = '0.00&nbsp;€';
+            this.discountAbsoluteCodeEntered = false;
+            this.discountPercentagedCodeEntered = false;
+        }
     }
 
     calculateTotal() {
@@ -112,17 +136,24 @@ class ShoppingBasket {
             this.total = this.subtotal + this.deliveryExpenses;
         }
         else {
-            this.total = 0;
+            this.total = 0.00;
+        }
+        if (this.discountAbsoluteCodeEntered) {
+            this.total = this.total - this.discountAbsolute;
+        }
+        if (this.discountPercentagedCodeEntered) {
+            this.total = (this.total) * (1 - this.discountPercentaged);
+            let discountValue = document.getElementById('discountValue');
+            discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
         }
         let total = document.getElementById('total');
         total.innerHTML = this.total.toFixed(2) + '&nbsp;€';
-        //console.log("Typ von total:", typeof(this.total), "total", this.total);
     }
 
     checkDifferenceToMov() {
         let diffToMovText = document.getElementById('diffToMovText');
         let diffToMovValue = document.getElementById('diffToMovValue');
-        let sBInfoDifferenceToMov = document.getElementById('sBInfoDifferenceToMov');
+        let sBInfoDiffToMov = document.getElementById('sBInfoDiffToMov');
         let orderBtn = document.getElementById('orderBtn');
         if (this.minimumOrderValueReached()) {
             diffToMovText.setAttribute('hidden', true);
@@ -169,6 +200,28 @@ class ShoppingBasket {
 
     calculateDiffToFreeDelivery() {
         return (this.freeDeliveryValue - this.subtotal).toFixed(2);
+    }
+
+    checkForDiscount() {
+        let inputDiscountCode = document.getElementById('inputDiscountCode').value;
+        let discountValue = document.getElementById('discountValue');
+        if (sha256(inputDiscountCode) === this.discountAbsoluteCode) {
+            console.log("Absoluter Rabatt erreicht!");
+            this.discountAbsoluteCodeEntered = true;
+            discountValue.innerHTML = '-&nbsp;' + this.discountAbsolute.toFixed(2) + '&nbsp;€';
+
+        }
+        else if (sha256(inputDiscountCode) === this.discountPercentagedCode) {
+            console.log("Prozentualer Rabatt erreicht!");
+            this.discountPercentagedCodeEntered = true;
+            discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
+        }
+        else {
+            this.discountAbsoluteCodeEntered = false;
+            this.discountPercentagedCodeEntered = false;
+            discountValue.innerHTML = '0.00&nbsp;€'
+        }
+        this.updateSB();
     }
 
 }

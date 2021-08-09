@@ -21,6 +21,8 @@
     <script src="models/shopping-basket.class.js"></script>
     <script src="models/product.class.js"></script>
     <script src="script.js"></script>
+    <script src="node_modules/js-sha256/src/sha256.js"></script>
+
 </head>
 
 <body onload="init()">
@@ -79,28 +81,38 @@
                 <tbody>
                     <tr>
                         <td>Zwischensumme</td>
-                        <td id="subtotal">0,00&nbsp;€</td>
+                        <td id="subtotal">0.00&nbsp;€</td>
                     </tr>
                     <tr id="deliveryExpensesText" hidden>
                         <td>Lieferkosten</td>
-                        <td id="deliveryExpensesValue">2,00&nbsp;€</td>
+                        <td id="deliveryExpensesValue">2.00&nbsp;€</td>
                     </tr>
                     <tr id="diffToMovText">
                         <td>Fehlender Betrag zum Mindesbestellwert</td>
-                        <td id="diffToMovValue">10,00&nbsp;€</td>
+                        <td id="diffToMovValue">10.00&nbsp;€</td>
                     </tr>
                     <tr id="diffToFreeDeliveryText">
                         <td>Fehlender Betrag zu kostenloser Lieferung</td>
-                        <td id="diffToFreeDeliveryValue">20,00&nbsp;€</td>
+                        <td id="diffToFreeDeliveryValue">20.00&nbsp;€</td>
+                    </tr>
+                    <tr>
+                        <td id="discountText" class="grey-text">Rabattcode (ab 5.00&nbsp;€ Bestellwert)</td>
+                    </tr>
+                    <tr>
+                        <td><input id="inputDiscountCode" type="text" oninput="sB.checkForDiscount()" disabled></td>
+                    </tr>
+                    <tr>
+                        <td>Rabatt</td>
+                        <td id="discountValue">0.00&nbsp;€</td>
                     </tr>
                     <tr id="totalText">
                         <td>GESAMT</td>
-                        <td id="total">0,00&nbsp;€</td>
+                        <td id="total">0.00&nbsp;€</td>
                     </tr>
                 </tbody>
             </table>
             <div id="sBInfoDiffToMov" class="sB-info">
-                Ab einem Mindestbestellwert von 10,00 € kannst du bestellen.
+                Ab einem Mindestbestellwert von 10.00&nbsp;€ kannst du bestellen.
             </div>
             <button id="orderBtn" class="order-btn order-btn-disabled">Bestellen</button>
         </div>
