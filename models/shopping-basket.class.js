@@ -6,6 +6,7 @@ class ShoppingBasket {
     total = 0.00;
     minimumOrderValue = 10.00;
     freeDeliveryValue = 20.00;
+    sBEmpty = true;
     discountAbsoluteCode = '3ab25e3f2525db1ba29dc28354d12931365b0d77d43fb954308566e3e96a47e7'; //burrito-5-euro
     discountAbsolute = 5.00;
     discountPercentagedCode = '211070fe9904206a54395e60d3d45dfd5b8c954e3ff9685425445163d3fa9e90'; //burrito-10-prozent
@@ -17,7 +18,7 @@ class ShoppingBasket {
         let product = products[i];
         if (this.notAddedYet(product)) {
             this.products.push(product);
-            sBEmpty = false;
+            this.sBEmpty = false;
             this.updateSB();
         }
         else {
@@ -25,6 +26,7 @@ class ShoppingBasket {
             console.log("Der Index ist:", index);
             this.raiseQuantity(index);
         }
+        saveToLocalStorage(this);
     }
 
     notAddedYet(product) {
@@ -34,6 +36,7 @@ class ShoppingBasket {
     raiseQuantity(i) {
         this.products[i].quantity++;
         this.updateSB();
+        saveToLocalStorage(this);
     }
 
     updateSB() {
@@ -53,10 +56,9 @@ class ShoppingBasket {
     }
 
     toggleSBInfo() {
-        console.log("sBEmpty", sBEmpty);
         let sBInfoAddDishes = document.getElementById('sB-info-add-dishes')
         let deliveryExpensesText = document.getElementById('deliveryExpensesText');
-        if (sBEmpty === false) {
+        if (this.sBEmpty === false) {
             sBInfoAddDishes.setAttribute('hidden', true);
             deliveryExpensesText.removeAttribute('hidden');
         }
@@ -91,20 +93,22 @@ class ShoppingBasket {
         else {
             this.deleteFromSB(i);
         }
+        saveToLocalStorage(this);
     }
 
     deleteFromSB(i) {
         this.products[i].quantity = 1;
         this.products.splice(i, 1);
         if (this.products.length === 0) {
-            sBEmpty = true;
+            this.sBEmpty = true;
             this.total = 0;
         }
         this.updateSB();
+        saveToLocalStorage(this);
     }
 
     calculateSubtotal() {
-        var subtotal = document.getElementById('subtotal');
+        let subtotal = document.getElementById('subtotal');
         for (let i = 0; i < this.products.length; i++) {
             const product = this.products[i];
             this.subtotal += product['quantity'] * product['price'];
@@ -132,7 +136,7 @@ class ShoppingBasket {
     }
 
     calculateTotal() {
-        if (sBEmpty === false) {
+        if (this.sBEmpty === false) {
             this.total = this.subtotal + this.deliveryExpenses;
         }
         else {
@@ -145,27 +149,28 @@ class ShoppingBasket {
             this.total = (this.total) * (1 - this.discountPercentaged);
             let discountValue = document.getElementById('discountValue');
             discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
+
         }
-        let total = document.getElementById('total');
-        total.innerHTML = this.total.toFixed(2) + '&nbsp;€';
+        document.getElementById('total').innerHTML = this.total.toFixed(2) + '&nbsp;€';
     }
 
     checkDifferenceToMov() {
         let diffToMovText = document.getElementById('diffToMovText');
-        let diffToMovValue = document.getElementById('diffToMovValue');
         let sBInfoDiffToMov = document.getElementById('sBInfoDiffToMov');
         let orderBtn = document.getElementById('orderBtn');
         if (this.minimumOrderValueReached()) {
             diffToMovText.setAttribute('hidden', true);
             sBInfoDiffToMov.setAttribute('hidden', true);
             orderBtn.classList.remove('order-btn-disabled');
+            orderBtn.removeAttribute('disabled');
         }
         else {
             diffToMovText.removeAttribute('hidden');
             let diff = this.calculateDiffToMov();
-            diffToMovValue.innerHTML = diff + '&nbsp;€';
+            document.getElementById('diffToMovValue').innerHTML = diff + '&nbsp;€';
             sBInfoDiffToMov.removeAttribute('hidden');
             orderBtn.classList.add('order-btn-disabled');
+            orderBtn.setAttribute('disabled', true);
         }
     }
 
@@ -179,8 +184,6 @@ class ShoppingBasket {
 
     checkForFreeDelivery() {
         let diffToFreeDeliveryText = document.getElementById('diffToFreeDeliveryText');
-        let diffToFreeDeliveryValue = document.getElementById('diffToFreeDeliveryValue');
-        let deliveryExpensesValue = document.getElementById('deliveryExpensesValue');
         if (this.freeDeliveryValueReached()) {
             diffToFreeDeliveryText.setAttribute('hidden', true);
             this.deliveryExpenses = 0;
@@ -188,10 +191,10 @@ class ShoppingBasket {
         else {
             this.deliveryExpenses = 2;
             let diff = this.calculateDiffToFreeDelivery();
-            diffToFreeDeliveryValue.innerHTML = diff + '&nbsp;€';
+            document.getElementById('diffToFreeDeliveryValue').innerHTML = diff + '&nbsp;€';
             diffToFreeDeliveryText.removeAttribute('hidden');
         }
-        deliveryExpensesValue.innerHTML = this.deliveryExpenses.toFixed(2) + '&nbsp;€';
+        document.getElementById('deliveryExpensesValue').innerHTML = this.deliveryExpenses.toFixed(2) + '&nbsp;€';
     }
 
     freeDeliveryValueReached() {

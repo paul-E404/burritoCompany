@@ -1,6 +1,6 @@
 let products = [];
 let sB;
-let sBEmpty = true;
+//let sBEmpty = true;
 
 function init() {
     createShoppingBasket();
@@ -8,8 +8,9 @@ function init() {
     showMenu();
 }
 
-function createShoppingBasket() {
-    sB = new ShoppingBasket();
+async function createShoppingBasket() {
+    sB = await getFromLocalStorage() || new ShoppingBasket();
+    sB.updateSB();
 }
 
 function createProducts() {
@@ -39,4 +40,16 @@ function generateHTMLForMenu(i) {
                     <div class="dish-price">${products[i].price.toFixed(2)} €</div>
                 </div>
             </div>`;
+}
+
+function saveToLocalStorage(obj) {
+    let json = localStorage.setItem('shoppingBasket', JSON.stringify(obj));
+    console.log("Das gesicherte Objekt als String lautet: ", json);
+}
+
+function getFromLocalStorage() {
+    let object = JSON.parse(localStorage.getItem('shoppingBasket'));
+    let sB = Object.assign(new ShoppingBasket, object);
+    console.log("Das Objekt aus dem Local Storage lautet: ", sB);
+    return sB;
 }
