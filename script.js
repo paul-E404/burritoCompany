@@ -1,18 +1,26 @@
 let products = [];
 let sB;
-//let sBEmpty = true;
 
+/**
+ * Starts the main functions for displaying the website properly.
+ */
 function init() {
     createShoppingBasket();
     createProducts();
     showMenu();
 }
 
+/**
+ * Creates the shopping basket.
+ */
 async function createShoppingBasket() {
     sB = await getFromLocalStorage() || new ShoppingBasket();
     sB.updateSB();
 }
 
+/**
+ * Creates all products on the menu.
+ */
 function createProducts() {
     products = [
         new Product('Burrito', 'Safiger Burrito mit zarter Hähnchenbrust und mediterranem Gemüse', 6.00, 'burrito.jpg', 1),
@@ -23,6 +31,9 @@ function createProducts() {
     ]
 }
 
+/**
+ * Iterates through the procuts array and displays all products on the menu container.
+ */
 function showMenu() {
     let menuContainer = document.getElementById('menu');
     for (let i = 0; i < products.length; i++) {
@@ -30,6 +41,10 @@ function showMenu() {
     }
 }
 
+/**
+ * Generates the HTML template for the menu.
+ * @param  {number} i - Index of products array.
+ */
 function generateHTMLForMenu(i) {
     return `<div class="dish-box">
                 <img src="img/${products[i].imgPath}" alt="${products[i].name}">
@@ -42,9 +57,12 @@ function generateHTMLForMenu(i) {
             </div>`;
 }
 
+/**
+ * Saves JSON
+ * @param  {obj} obj - 
+ */
 function saveToLocalStorage(obj) {
-    let json = localStorage.setItem('shoppingBasket', JSON.stringify(obj));
-    console.log("Das gesicherte Objekt als String lautet: ", json);
+    localStorage.setItem('shoppingBasket', JSON.stringify(obj));
 }
 
 function getFromLocalStorage() {

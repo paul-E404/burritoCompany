@@ -14,27 +14,26 @@ class ShoppingBasket {
     discountAbsoluteCodeEntered = false;
     discountPercentagedCodeEntered = false;
 
+
     addToShoppingBasket(i) {
         let product = products[i];
-        if (this.notAddedYet(product)) {
+        let searchedProd = this.products.find(prod => prod.name == product.name);
+        if (!searchedProd) {
             this.products.push(product);
             this.sBEmpty = false;
             this.updateSB();
         }
         else {
-            let index = this.products.indexOf(product);
+            let index = this.products.indexOf(searchedProd);
             console.log("Der Index ist:", index);
+            console.log("Die Produkte sind: ", this.products);
             this.raiseQuantity(index);
         }
         saveToLocalStorage(this);
     }
 
-    notAddedYet(product) {
-        return !this.products.includes(product);
-    }
-
-    raiseQuantity(i) {
-        this.products[i].quantity++;
+    raiseQuantity(index) {
+        this.products[index].quantity++;
         this.updateSB();
         saveToLocalStorage(this);
     }
