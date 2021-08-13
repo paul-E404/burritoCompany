@@ -1,10 +1,16 @@
 let products = [];
 let sB;
+let sBMobileOpened = false;
 
 /**
  * Starts the main functions for displaying the website properly.
  */
 function init() {
+    addEventListener('resize', function (event) {
+        if (this.window.innerWidth >= 900) {
+            showSBRight();
+        }
+    }, true)
     createShoppingBasket();
     createProducts();
     showMenu();
@@ -73,4 +79,31 @@ function getFromLocalStorage() {
     let sB = Object.assign(new ShoppingBasket, object);
     console.log("Das Objekt aus dem Local Storage lautet: ", sB);
     return sB;
+}
+
+/**
+ * Guaratees that shopping basket is always visible on the right on devices with a minimum width of 900px.
+ */
+function showSBRight() {
+    document.getElementById('sBContainer').style.display = 'flex';
+    document.getElementById('closeX').visibility = 'hidden';
+    document.getElementById('sBMobileBtnContainer').style.display = 'none';
+}
+
+/**
+ * Toggles mobile display of shopping basket.
+ */
+function toggleSB() {
+    let sBContainer = document.getElementById('sBContainer');
+    let sBMobileBtnContainer = document.getElementById('sBMobileBtnContainer');
+    if (sBMobileOpened === false) {
+        sBContainer.style.display = 'flex';
+        sBMobileBtnContainer.style.display = 'none';
+        sBMobileOpened = true;
+    }
+    else {
+        sBContainer.style.display = 'none';
+        sBMobileBtnContainer.style.display = 'flex';
+        sBMobileOpened = false;
+    }
 }

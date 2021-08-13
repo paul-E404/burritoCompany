@@ -30,6 +30,20 @@ td {
     color: lightgrey !important;
 }
 
+.btn {
+    background-color: var(--color-fourth);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: rgb(4, 146, 115);
+}
+
 .background {
     width: 100%;
     height: 100vh;
@@ -57,6 +71,7 @@ td {
 .header h1 {
     font-family: "Snowburst One", cursive;
     font-size: 60px;
+    text-align: center;
     margin-left: 30px;
     margin-right: 20px;
 }
@@ -164,10 +179,21 @@ td {
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(39, 36, 29);
+    background-color: var(--bg-color-primary);
     box-shadow: var(--box-shadow-main);
     display: flex;
     justify-content: center;
+}
+
+.close-x {
+    visibility: hidden;
+    position: absolute;
+    font-size: 40px;
+    font-weight: bold;
+    top: 16px;
+    right: 5%;
+    cursor: pointer;
+    color: var(--color-secondary);
 }
 
 .sB-content {
@@ -272,20 +298,9 @@ td {
 .order-btn {
     width: 240px;
     height: 64px;
-    background-color: var(--color-fourth);
-    border: none;
-    border-radius: 4px;
-    color: white;
-    font-family: inherit;
     font-size: 32px;
-    font-weight: bold;
     align-self: center;
-    cursor: pointer;
     margin-top: var(--offset-secondary);
-}
-
-.order-btn:hover {
-    background-color: rgb(4, 146, 115);
 }
 
 .order-btn-disabled {
@@ -296,11 +311,37 @@ td {
     cursor: no-drop;
 }
 
+.sB-mobile-btn-container {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background-color: var(--bg-color-primary);
+    border-top: 2px solid var(--color-fourth);
+}
+
+.sB-mobile-btn {
+    width: 95%;
+    height: 60px;
+    font-size: 32px;
+}
+
 /* Responsive Design  */
+
+@media (max-width: 1400px) {
+    .header h1,
+    .header i {
+        font-size: 48px;
+    }
+}
 
 @media (max-width: 1200px) {
     :root {
         --sB-width: 400px;
+        --offset-main: 20px;
     }
 }
 
@@ -308,10 +349,145 @@ td {
     :root {
         --sB-width: 350px;
     }
+    .order-btn {
+        width: 180px;
+        height: 48px;
+        font-size: 28px;
+    }
 }
 
 @media (max-width: 1000px) {
     :root {
-        --sB-width: 300px;
+        --dish-box-height: 100px;
+        --header-height: 120px;
+    }
+    .header h1 {
+        font-size: 40px;
+        margin-left: 16px;
+        margin-right: 12px;
+    }
+    .header i {
+        font-size: 40px;
+    }
+    .dish-text {
+        padding: 8px 72px 8px 12px;
+    }
+    .dish-name {
+        font-size: 20px;
+    }
+    .dish-price {
+        font-size: 18px;
+    }
+    .plus {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --sB-width: 100%;
+        --offset-secondary: 12px;
+    }
+    .background {
+        background-position: right;
+    }
+    .header,
+    .menu-container {
+        width: 100%;
+    }
+    .menu {
+        height: calc(100% - 3 * var(--offset-main) - 80px); /* subtract sB-mobile-btn-container-height additionally */
+    }
+    .sB-container {
+        left: 0;
+        overflow-x: auto;
+        display: none;
+    }
+    .close-x {
+        visibility: visible;
+    }
+    .sB-content h2 {
+        margin-bottom: 0;
+    }
+    .sB-mobile-btn-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --header-height: 80px;
+    }
+    .header h1 {
+        font-size: 32px;
+    }
+    .header i {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 500px) {
+    :root {
+        --dish-box-height: 80px;
+    }
+    .dish-text {
+        margin-left: 20px;
+    }
+    .dish-desc {
+        font-size: 14px;
+    }
+    .plus {
+        width: 24px;
+        height: 24px;
+    }
+    .plus span {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 450px) {
+    :root {
+        --header-height: 60px;
+    }
+    .header h1 {
+        font-size: 28px;
+    }
+    .header i {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 400px) {
+    :root {
+        --dish-box-height: 120px;
+    }
+    .header {
+        justify-content: space-evenly;
+    }
+    .header h1 {
+        font-size: 24px;
+        width: 120px;
+    }
+    .dish-box {
+        flex-direction: column;
+        align-items: center;
+    }
+    .dish-text {
+        margin-left: unset;
+        width: unset;
+        margin-top: 12px;
+        margin-bottom: 12px;
+        padding: 8px 60px 8px 12px;
+    }
+    .sB-mobile-btn-container {
+        height: 60px;
+    }
+    .sB-mobile-btn {
+        width: 90%;
+        height: 44px;
+        font-size: 28px;
     }
 }

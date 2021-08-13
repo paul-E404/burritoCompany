@@ -40,7 +40,8 @@
 
         </div>
     </div>
-    <div class="sB-container">
+    <div id="sBContainer" class="sB-container">
+        <div onclick="toggleSB()" id="closeX" class="close-x">x</div>
         <div class="sB-content">
             <h2>Warenkorb</h2>
             <div id="sB-info-add-dishes">
@@ -88,8 +89,12 @@
             <div id="sBInfoDiffToMov" class="sB-info">
                 Ab einem Mindestbestellwert von 10.00&nbsp;€ kannst du bestellen.
             </div>
-            <button id="orderBtn" class="order-btn order-btn-disabled">Bestellen</button>
+            <button id="orderBtn" class="btn order-btn order-btn-disabled">Bestellen</button>
         </div>
+    </div>
+
+    <div id="sBMobileBtnContainer" class="sB-mobile-btn-container">
+        <button onclick="toggleSB()" class="btn sB-mobile-btn">Zum Warenkorb</button>
     </div>
 
 </body>

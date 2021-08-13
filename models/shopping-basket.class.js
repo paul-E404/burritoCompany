@@ -93,7 +93,7 @@ class ShoppingBasket {
                         <td>
                             <div onclick="sB.raiseQuantity(${i})" class="sB-quantity-icons sB-plus"><span>+</span></div>
                         </td>
-                        <td>${(this.products[i].quantity * this.products[i].price).toFixed(2)} €</td>
+                        <td>${(this.products[i].quantity * this.products[i].price).toFixed(2)}&nbsp;€</td>
                         <td><i onclick="sB.deleteFromSB(${i})" class="trash-icon far fa-trash-alt"></i></td>
                     </tr>
                 </tbody>`;
