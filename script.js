@@ -58,13 +58,16 @@ function generateHTMLForMenu(i) {
 }
 
 /**
- * Saves JSON
- * @param  {obj} obj - 
+ * Saves object to local storage.
+ * @param  {obj} obj - The ShoppingBasket object.
  */
 function saveToLocalStorage(obj) {
     localStorage.setItem('shoppingBasket', JSON.stringify(obj));
 }
 
+/**
+ * Gets ShoppingBasket object from local storage.
+ */
 function getFromLocalStorage() {
     let object = JSON.parse(localStorage.getItem('shoppingBasket'));
     let sB = Object.assign(new ShoppingBasket, object);

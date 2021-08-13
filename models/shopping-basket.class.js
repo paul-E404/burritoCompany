@@ -14,7 +14,10 @@ class ShoppingBasket {
     discountAbsoluteCodeEntered = false;
     discountPercentagedCodeEntered = false;
 
-
+    /**
+     * Adds a chosen product to shopping basket.
+     * @param  {number} i Index of the chosen product.
+     */
     addToShoppingBasket(i) {
         let product = products[i];
         let searchedProd = this.products.find(prod => prod.name == product.name);
@@ -25,19 +28,24 @@ class ShoppingBasket {
         }
         else {
             let index = this.products.indexOf(searchedProd);
-            console.log("Der Index ist:", index);
-            console.log("Die Produkte sind: ", this.products);
             this.raiseQuantity(index);
         }
         saveToLocalStorage(this);
     }
 
+    /**
+     * Raises a product's quantity if product already exists in shopping basket.
+     * @param  {number} index Index of the searched product in array products in ShoppingBasket object.
+     */
     raiseQuantity(index) {
         this.products[index].quantity++;
         this.updateSB();
         saveToLocalStorage(this);
     }
 
+    /**
+     * Displays the shopping basket with the current products, prices and information.
+     */
     updateSB() {
         this.toggleSBInfo();
         let sBTableOrder = document.getElementById('sB-table-order');
@@ -54,6 +62,9 @@ class ShoppingBasket {
         this.calculateTotal();
     }
 
+    /**
+     * Toggles information about adding dishes and delivery expenses depending on whether the user has already added an item to shopping basket or not.
+     */
     toggleSBInfo() {
         let sBInfoAddDishes = document.getElementById('sB-info-add-dishes')
         let deliveryExpensesText = document.getElementById('deliveryExpensesText');
@@ -67,6 +78,10 @@ class ShoppingBasket {
         }
     }
 
+    /**
+     * Generates HTML template for the order in the shopping basket.
+     * @param  {number} i Index of the product.
+     */
     generateHTMLForOrder(i) {
         return `<tbody>
                     <tr>
@@ -84,6 +99,10 @@ class ShoppingBasket {
                 </tbody>`;
     }
 
+    /**
+     * Reduces a product's quantity if product already exists in shopping basket.
+     * @param  {number} i Index of the product.
+     */
     reduceQuantity(i) {
         if (this.products[i].quantity > 1) {
             this.products[i].quantity--;
@@ -95,7 +114,12 @@ class ShoppingBasket {
         saveToLocalStorage(this);
     }
 
+    /**
+     * Deletes a product from shopping basket.
+     * @param  {number} i Index of the product.
+     */
     deleteFromSB(i) {
+        //set quantity back to 1 before deleting to prevent a false quantity if product will be added again
         this.products[i].quantity = 1;
         this.products.splice(i, 1);
         if (this.products.length === 0) {
@@ -106,6 +130,9 @@ class ShoppingBasket {
         saveToLocalStorage(this);
     }
 
+    /**
+     * Calculates subtotal of the order.
+     */
     calculateSubtotal() {
         let subtotal = document.getElementById('subtotal');
         for (let i = 0; i < this.products.length; i++) {
@@ -115,25 +142,49 @@ class ShoppingBasket {
         subtotal.innerHTML = this.subtotal.toFixed(2) + '&nbsp;€';
     }
 
+    /**
+     * Toggles the discount code entering option as soon as 5.00 € order value is reached or not.
+     */
     toggleDiscountInput() {
         let inputDiscountCode = document.getElementById('inputDiscountCode');
         let discountText = document.getElementById('discountText');
         if (this.subtotal >= 5.00) {
-            discountText.classList.remove('grey-text');
-            inputDiscountCode.removeAttribute('disabled');
+            this.allowEnteringCode(inputDiscountCode, discountText);
         }
         else {
-            document.getElementById('discountValue').innerHTML = '0.00&nbsp;€';
-            inputDiscountCode.value = '';
-            inputDiscountCode.setAttribute('disabled', true);
-            discountText.classList.add('grey-text');
-            this.total = 0.00;
-            document.getElementById('total').innerHTML = '0.00&nbsp;€';
-            this.discountAbsoluteCodeEntered = false;
-            this.discountPercentagedCodeEntered = false;
+            this.forbidEnteringCode(inputDiscountCode, discountText);
         }
     }
 
+    /**
+     * Allows the user to enter a discount code.
+     * @param  {HTMLElement} inputDiscountCode Input field for the discount code.
+     * @param  {HTMLElement} discountText Label to the discount code input field.
+     */
+    allowEnteringCode(inputDiscountCode, discountText) {
+        discountText.classList.remove('grey-text');
+        inputDiscountCode.removeAttribute('disabled');
+    };
+
+    /**
+     * Forbids the user from entering a discount code.
+   * @param  {HTMLElement} inputDiscountCode Input field for the discount code.
+     * @param  {HTMLElement} discountText Label to the discount code input field.
+     */
+    forbidEnteringCode(inputDiscountCode, discountText) {
+        document.getElementById('discountValue').innerHTML = '0.00&nbsp;€';
+        inputDiscountCode.value = '';
+        inputDiscountCode.setAttribute('disabled', true);
+        discountText.classList.add('grey-text');
+        this.total = 0.00;
+        document.getElementById('total').innerHTML = '0.00&nbsp;€';
+        this.discountAbsoluteCodeEntered = false;
+        this.discountPercentagedCodeEntered = false;
+    }
+
+    /**
+     * Calculates total sum.
+     */
     calculateTotal() {
         if (this.sBEmpty === false) {
             this.total = this.subtotal + this.deliveryExpenses;
@@ -142,17 +193,33 @@ class ShoppingBasket {
             this.total = 0.00;
         }
         if (this.discountAbsoluteCodeEntered) {
-            this.total = this.total - this.discountAbsolute;
+            this.subtractDiscountAbsolute();
         }
         if (this.discountPercentagedCodeEntered) {
-            this.total = (this.total) * (1 - this.discountPercentaged);
-            let discountValue = document.getElementById('discountValue');
-            discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
-
+            this.subtractDiscountPercentaged();
         }
         document.getElementById('total').innerHTML = this.total.toFixed(2) + '&nbsp;€';
     }
 
+    /**
+     * Subtracts an absolute discount from total sum.
+     */
+    subtractDiscountAbsolute() {
+        this.total = this.total - this.discountAbsolute;
+    }
+
+    /**
+     * Subtracts a percentaged discount from total sum.
+     */
+    subtractDiscountPercentaged() {
+        this.total = (this.total) * (1 - this.discountPercentaged);
+        let discountValue = document.getElementById('discountValue');
+        discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
+    }
+
+    /**
+     * Displays information and unblocks order button depending on whether minimum order value is reached or not.
+     */
     checkDifferenceToMov() {
         let diffToMovText = document.getElementById('diffToMovText');
         let sBInfoDiffToMov = document.getElementById('sBInfoDiffToMov');
@@ -173,14 +240,24 @@ class ShoppingBasket {
         }
     }
 
+    /**
+     * Returns true if minimum order value is reached.
+     * @return {boolan}
+     */
     minimumOrderValueReached() {
         return (this.subtotal >= this.minimumOrderValue);
     }
 
+    /**
+     * Calculates the difference to minimum order value.
+     */
     calculateDiffToMov() {
         return (this.minimumOrderValue - this.subtotal).toFixed(2);
     }
 
+    /**
+     * Checks if a free delivery is possible or not depending on subtotal.
+     */
     checkForFreeDelivery() {
         let diffToFreeDeliveryText = document.getElementById('diffToFreeDeliveryText');
         if (this.freeDeliveryValueReached()) {
@@ -196,34 +273,62 @@ class ShoppingBasket {
         document.getElementById('deliveryExpensesValue').innerHTML = this.deliveryExpenses.toFixed(2) + '&nbsp;€';
     }
 
+    /**
+     * Returns true if the value for a free delivery is reached.
+     * @return {boolan}
+     */
     freeDeliveryValueReached() {
         return (this.subtotal >= this.freeDeliveryValue);
     }
 
+    /**
+     * Calculates the difference to the value for a free delivery.
+     */
     calculateDiffToFreeDelivery() {
         return (this.freeDeliveryValue - this.subtotal).toFixed(2);
     }
 
-    checkForDiscount() {
+    /**
+     * Checks if the code is corrrect in order to grant a discount.
+     */
+    checkCodeForDiscount() {
         let inputDiscountCode = document.getElementById('inputDiscountCode').value;
         let discountValue = document.getElementById('discountValue');
         if (sha256(inputDiscountCode) === this.discountAbsoluteCode) {
-            console.log("Absoluter Rabatt erreicht!");
-            this.discountAbsoluteCodeEntered = true;
-            discountValue.innerHTML = '-&nbsp;' + this.discountAbsolute.toFixed(2) + '&nbsp;€';
-
+            this.grantDiscountAbsolute(discountValue);
         }
         else if (sha256(inputDiscountCode) === this.discountPercentagedCode) {
-            console.log("Prozentualer Rabatt erreicht!");
-            this.discountPercentagedCodeEntered = true;
-            discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
+            this.grantDiscountPercentaged(discountValue);
         }
         else {
-            this.discountAbsoluteCodeEntered = false;
-            this.discountPercentagedCodeEntered = false;
-            discountValue.innerHTML = '0.00&nbsp;€'
+            this.resetDiscount(discountValue);
         }
         this.updateSB();
+    }
+
+    /**
+     * Confirms the right code and displays the absolute discount in the shopping basket user interface.
+     */
+    grantDiscountAbsolute() {
+        this.discountAbsoluteCodeEntered = true;
+        discountValue.innerHTML = '-&nbsp;' + this.discountAbsolute.toFixed(2) + '&nbsp;€';
+    }
+
+    /**
+     * Confirms the right code and displays the percentaged discount in the shopping basket user interface.
+     */
+    grantDiscountPercentaged() {
+        this.discountPercentagedCodeEntered = true;
+        discountValue.innerHTML = '-&nbsp;' + (this.total * this.discountPercentaged).toFixed(2) + '&nbsp;€';
+    }
+
+    /**
+     * Resets discount code user inferface in the shopping basket.
+     */
+    resetDiscount() {
+        this.discountAbsoluteCodeEntered = false;
+        this.discountPercentagedCodeEntered = false;
+        discountValue.innerHTML = '0.00&nbsp;€'
     }
 
 }
